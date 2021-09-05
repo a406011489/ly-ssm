@@ -1,0 +1,42 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+    <display-name>Archetype Created Web Application</display-name>
+
+    <!-- 扫描需要初始化的xml文件，把配置文件放入到contextConfigLocation -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath*:applicationContext*.xml</param-value>
+    </context-param>
+
+    <!--
+        该配置的作用是，启动 Web 容器时，读取在 contextConfigLocation中定义的xml文件，
+        自动装配 ApplicationContext 的配置信息，并产生 WebApplicationContext 对象，
+        然后将这个对象放置在 ServletContext 的属性里，
+        这样我们只要得到 Servlet 就可以得到 WebApplicationContext 对象，
+        并利用这个对象访问spring容器管理的bean。
+    -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!--springmvc启动-->
+    <servlet>
+        <servlet-name>springmvc1</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+
+        <!-- 在初始化的时候，把springmvc.xml配置进 config 中-->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath*:springmvc.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>springmvc1</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+</web-app>
